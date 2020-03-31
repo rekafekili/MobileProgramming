@@ -11,6 +11,6 @@ class MainActivity : AppCompatActivity() {
 
         val textView : TextView = findViewById(R.id.textview)
 
-        textView.setText("14학번 조성윤")
+        textView.text = "14학번 조성윤"
     }
 }
