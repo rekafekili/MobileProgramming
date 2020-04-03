@@ -1,25 +1,46 @@
 package com.example.bmicalculator
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.preference.PreferenceManager
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import android.content.Intent
 import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        result_button.setOnClickListener {
-            // 버튼을 클릭했을 때 실행될 동작
-//            val intent = Intent(this, ResultActivity::class.java)
-//            intent.putExtra("height", height_edittext.text.toString())
-//            intent.putExtra("weight", weight_edittext.text.toString())
-//            startActivity(intent)
 
+        // Check Saved Data
+        loadData()
+
+        result_button.setOnClickListener {
+            // Save Data
+            saveData(height_edittext.text.toString().toInt(), weight_edittext.text.toString().toInt())
+
+            // Go To ResultActivity
             startActivity<ResultActivity>(
                 "height" to height_edittext.text.toString(),
                 "weight" to weight_edittext.text.toString())
         }
+    }
+
+    private fun loadData() {
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        val height = pref.getInt("KEY_HEIGHT", 0)
+        val weight = pref.getInt("KEY_WEIGHT", 0)
+
+        if(height != 0 && weight != 0) {
+            height_edittext.setText(height.toString())
+            weight_edittext.setText(weight.toString())
+        }
+    }
+
+    private fun saveData(height: Int, weight: Int) {
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = pref.edit()
+        editor.putInt("KEY_HEIGHT", height)
+            .putInt("KEY_WEIGHT", weight)
+            .apply()
     }
 }
