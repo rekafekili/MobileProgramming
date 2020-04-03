@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">BmiCalculator</string>
-    <string name="height_edittext">Height</string>
-    <string name="weight_edittext">Weight</string>
+    <string name="app_name" translatable="false">BmiCalculator</string>
+    <string name="height_edittext" translatable="false">Height</string>
+    <string name="weight_edittext" translatable="false">Weight</string>
     <string name="calculate_button">Result</string>
     <string name="result_textview">Result</string>
 </resources>
