@@ -5,32 +5,32 @@ import androidx.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk25.coroutines.onClick
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        verticalLayout {
-            val name = editText()
-            button("Say Hello") {
-                onClick { toast("Hello, ${name.text}!") }
-            }
-        }
+        // Using Anko
+//        verticalLayout {
+//            val name = editText()
+//            button("Say Hello") {
+//                onClick { toast("Hello, ${name.text}!") }
+//            }
+//        }
 
         // Check Saved Data
-//        loadData()
+        loadData()
 
-//        result_button.setOnClickListener {
-//            // Save Data
-//            saveData(height_edittext.text.toString().toInt(), weight_edittext.text.toString().toInt())
-//
-//            // Go To ResultActivity
-//            startActivity<ResultActivity>(
-//                "height" to height_edittext.text.toString(),
-//                "weight" to weight_edittext.text.toString())
-//        }
+        result_button.setOnClickListener {
+            // Save Data
+            saveData(height_edittext.text.toString().toInt(), weight_edittext.text.toString().toInt())
+
+            // Go To ResultActivity
+            startActivity<ResultActivity>(
+                "height" to height_edittext.text.toString(),
+                "weight" to weight_edittext.text.toString())
+        }
     }
 
     private fun loadData() {
