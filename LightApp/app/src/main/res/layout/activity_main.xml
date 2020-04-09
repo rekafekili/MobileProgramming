@@ -8,9 +8,16 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/light_imageview"
+        android:id="@+id/light_off_imageview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/off"/>
+
+    <ImageView
+        android:id="@+id/light_on_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/on"
+        android:visibility="invisible"/>
 
 </FrameLayout>

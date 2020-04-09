@@ -2,6 +2,7 @@ package com.example.lightapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -22,10 +23,12 @@ class MainActivity : AppCompatActivity() {
         var isLight = false
         framelayout.setOnClickListener {
             if(isLight) {
-                light_imageview.background = getDrawable(R.drawable.off)
+                light_on_imageview.visibility = View.INVISIBLE
+                light_off_imageview.visibility = View.VISIBLE
                 isLight = false
             } else {
-                light_imageview.background = getDrawable(R.drawable.on)
+                light_on_imageview.visibility = View.VISIBLE
+                light_off_imageview.visibility = View.INVISIBLE
                 isLight = true
             }
         }
