@@ -7,7 +7,7 @@
     android:padding="5dp">
 
     <Spinner
-        android:id="@+id/main_recycler_item_major_common_spinner"
+        android:id="@+id/main_recycler_item_classification_spinner"
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
 

@@ -1,0 +1,2 @@
+rootProject.name='GradeCalculator'
+include ':app'

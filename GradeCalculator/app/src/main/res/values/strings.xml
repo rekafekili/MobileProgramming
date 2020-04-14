@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">GradeCalculator</string>
+    <string name="subject_name_edittext_hint">과목명을 입력하세요.</string>
+    <string name="grade_edittext_hint">학점</string>
+    
+    <!-- String Arrays for Spinner -->
+    <string-array name="spinner_classification">
+        <item>교양 선택</item>
+        <item>교양 필수</item>
+        <item>전공 선택</item>
+        <item>전공 필수</item>
+    </string-array>
+    
+    <string-array name="spinner_grade">
+        <item>A+</item>
+        <item>A</item>
+        <item>B+</item>
+        <item>B</item>
+        <item>C+</item>
+        <item>C</item>
+        <item>D+</item>
+        <item>D</item>
+        <item>F</item>
+        <item>S</item>
+    </string-array>
+</resources>
