@@ -28,7 +28,9 @@ class SubjectRecyclerAdapter(val context: Context, val subjectList: ArrayList<Su
     override fun getItemCount(): Int = subjectList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.classSpinner
         holder.subjectNameEditText.setText(subjectList[position].subjectName)
         holder.subjectGradeEditText.setText(subjectList[position].subjectGrade)
+        holder.gradeSpinner
     }
 }
