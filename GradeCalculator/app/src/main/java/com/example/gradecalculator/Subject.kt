@@ -1,7 +1,7 @@
 package com.example.gradecalculator
 
 data class Subject(
-    val classification: String = "",
-    val subjectName: String = "",
-    val grade: String = "",
-    val subjectGrade: String = "")
+    var classification: Int = 0,
+    var subjectName: String = "",
+    var grade: Int = 0,
+    var subjectGrade: String = "")

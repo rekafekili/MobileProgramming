@@ -4,10 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private val TAG = "MainActivity"
     private val subjectList = ArrayList<Subject>()
     private val INIT_COUNT = 5
@@ -49,5 +50,13 @@ class MainActivity : AppCompatActivity() {
         main_recyclerview.layoutManager = LinearLayoutManager(this)
         recyclerAdapter = SubjectRecyclerAdapter(this, subjectList)
         main_recyclerview.adapter = recyclerAdapter
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        TODO("Not yet implemented")
     }
 }
