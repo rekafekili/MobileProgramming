@@ -2,22 +2,52 @@ package com.example.gradecalculator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private val subjectList = ArrayList<Subject>(5)
+    private val TAG = "MainActivity"
+    private val subjectList = ArrayList<Subject>()
+    private val INIT_COUNT = 5
+    private lateinit var recyclerAdapter: SubjectRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initSubjectList()
         initRecyclerView()
+        initButton()
+    }
+
+    private fun initButton() {
+        main_reset_button.setOnClickListener {
+            initSubjectList()
+            recyclerAdapter.notifyDataSetChanged()
+        }
+        main_add_button.setOnClickListener {
+            val subject = Subject()
+            subjectList.add(subject)
+            recyclerAdapter.notifyDataSetChanged()
+        }
+        main_result_button.setOnClickListener {
+
+        }
+    }
+
+    private fun initSubjectList() {
+        subjectList.clear()
+        for(i in 0 until INIT_COUNT){
+            val subject = Subject()
+            subjectList.add(subject)
+        }
     }
 
     private fun initRecyclerView() {
         main_recyclerview.layoutManager = LinearLayoutManager(this)
-        val recyclerAdapter = SubjectRecyclerAdapter(this, subjectList)
+        recyclerAdapter = SubjectRecyclerAdapter(this, subjectList)
         main_recyclerview.adapter = recyclerAdapter
     }
 }
