@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         var majorCount = 0      // 전공 총 취득 학점
         var majorTotal = 0.0    // 전공 과목 총점
         var etcCount = 0        // Pass 과목 총점
-
         for (subject: Subject in subjectList) {
             if (subject.classification == 0 || subject.subjectName == "" || subject.grade == 0 || subject.subjectGrade == "") {
                 continue
@@ -72,11 +71,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
         val commonAvg = if(commonCount!=0) commonTotal / commonCount else 0.0     // 교양 평점
         val majorAvg = if(majorCount!=0) majorTotal / majorCount else 0.0        // 전공 평점
         val totalAvg = (commonTotal + majorTotal) / (subjectTotal - etcCount)    // 총 평점
-
         showAlertDialog(subjectCount, subjectTotal, commonAvg, majorAvg, totalAvg)
     }
 
