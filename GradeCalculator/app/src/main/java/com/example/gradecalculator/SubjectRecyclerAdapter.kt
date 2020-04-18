@@ -1,6 +1,8 @@
 package com.example.gradecalculator
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +20,7 @@ class SubjectRecyclerAdapter(
     RecyclerView.Adapter<SubjectRecyclerAdapter.ViewHolder>() {
 
     private val TAG = "RecyclerAdapter"
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val classSpinner: Spinner =
             itemView.findViewById<Spinner>(R.id.main_recycler_item_classification_spinner)
@@ -40,6 +43,48 @@ class SubjectRecyclerAdapter(
         holder.subjectNameEditText.setText(subjectList[position].subjectName)
         holder.subjectGradeEditText.setText(subjectList[position].subjectGrade)
 
+        val classIndex = subjectList[position].classification
+        holder.classSpinner.setSelection(if (classIndex == 0) 0 else classIndex)
+        val gradeIndex = subjectList[position].grade
+        holder.gradeSpinner.setSelection(if(gradeIndex==0) 0 else gradeIndex)
+
+        setTextWatcher(holder, position)
+        setSelectedListener(holder, position)
+    }
+
+    private fun setTextWatcher(holder: ViewHolder, position: Int) {
+        holder.subjectNameEditText.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                subjectList[position].subjectName = s.toString()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                Log.d(TAG, "before : $s, $start, $count, $after")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.d(TAG, "changed : $s, $start, $before, $count")
+            }
+
+        })
+
+        holder.subjectGradeEditText.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                subjectList[position].subjectGrade = s.toString()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                Log.d(TAG, "before : $s, $start, $count, $after")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.d(TAG, "changed : $s, $start, $before, $count")
+            }
+
+        })
+    }
+
+    private fun setSelectedListener(holder: ViewHolder, position: Int) {
         holder.classSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
@@ -51,18 +96,10 @@ class SubjectRecyclerAdapter(
                 pos: Int,
                 id: Long
             ) {
-                subjectList[position].classification = pos
+                if (pos != 0) {
+                    subjectList[position].classification = pos
+                }
             }
-
-        }
-
-        ArrayAdapter.createFromResource(
-            context,
-            R.array.spinner_classification,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            holder.classSpinner.adapter = adapter
         }
 
         holder.gradeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -76,18 +113,9 @@ class SubjectRecyclerAdapter(
                 pos: Int,
                 id: Long
             ) {
-                subjectList[position].grade = pos
+                if (pos != 0)
+                    subjectList[position].grade = pos
             }
-
-        }
-
-        ArrayAdapter.createFromResource(
-            context,
-            R.array.spinner_grade,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            holder.gradeSpinner.adapter = adapter
         }
     }
 }

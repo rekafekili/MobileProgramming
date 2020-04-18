@@ -8,10 +8,10 @@ import android.widget.AdapterView
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
-    private val subjectList = ArrayList<Subject>()
     private val INIT_COUNT = 5
+    private val subjectList = ArrayList<Subject>()
     private lateinit var recyclerAdapter: SubjectRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         main_add_button.setOnClickListener {
             val subject = Subject()
             subjectList.add(subject)
+            Log.d(TAG, subjectList.toString())
             recyclerAdapter.notifyDataSetChanged()
         }
         main_result_button.setOnClickListener {
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun initSubjectList() {
         subjectList.clear()
-        for(i in 0 until INIT_COUNT){
+        for (i in 0 until INIT_COUNT) {
             val subject = Subject()
             subjectList.add(subject)
         }
@@ -50,13 +51,5 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         main_recyclerview.layoutManager = LinearLayoutManager(this)
         recyclerAdapter = SubjectRecyclerAdapter(this, subjectList)
         main_recyclerview.adapter = recyclerAdapter
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        TODO("Not yet implemented")
     }
 }

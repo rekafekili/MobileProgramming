@@ -9,7 +9,8 @@
     <Spinner
         android:id="@+id/main_recycler_item_classification_spinner"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:entries="@array/spinner_classification"/>
 
     <EditText
         android:id="@+id/main_recycler_item_subject_name_edittext"
@@ -24,7 +25,8 @@
     <Spinner
         android:id="@+id/main_recycler_item_grade_spinner"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:entries="@array/spinner_grade"/>
 
     <EditText
         android:id="@+id/main_recycler_item_grade_edittext"
