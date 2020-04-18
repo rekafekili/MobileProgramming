@@ -65,7 +65,6 @@ class SubjectRecyclerAdapter(
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 //                Log.d(TAG, "changed : $s, $start, $before, $count")
             }
-
         })
 
         holder.subjectGradeEditText.addTextChangedListener(object : TextWatcher{
@@ -80,7 +79,6 @@ class SubjectRecyclerAdapter(
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 //                Log.d(TAG, "changed : $s, $start, $before, $count")
             }
-
         })
     }
 
