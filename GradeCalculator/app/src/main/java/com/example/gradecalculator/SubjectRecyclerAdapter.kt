@@ -48,43 +48,43 @@ class SubjectRecyclerAdapter(
         val gradeIndex = subjectList[position].grade
         holder.gradeSpinner.setSelection(if(gradeIndex==0) 0 else gradeIndex)
 
-        setTextWatcher(holder, position)
-        setSelectedListener(holder, position)
+        setTextWatcher(holder)
+        setSelectedListener(holder)
     }
 
-    private fun setTextWatcher(holder: ViewHolder, position: Int) {
+    private fun setTextWatcher(holder: ViewHolder) {
         holder.subjectNameEditText.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {
-                subjectList[position].subjectName = s.toString()
+                subjectList[holder.adapterPosition].subjectName = s.toString()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                Log.d(TAG, "before : $s, $start, $count, $after")
+//                Log.d(TAG, "before : $s, $start, $count, $after")
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.d(TAG, "changed : $s, $start, $before, $count")
+//                Log.d(TAG, "changed : $s, $start, $before, $count")
             }
 
         })
 
         holder.subjectGradeEditText.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {
-                subjectList[position].subjectGrade = s.toString()
+                subjectList[holder.adapterPosition].subjectGrade = s.toString()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                Log.d(TAG, "before : $s, $start, $count, $after")
+//                Log.d(TAG, "before : $s, $start, $count, $after")
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.d(TAG, "changed : $s, $start, $before, $count")
+//                Log.d(TAG, "changed : $s, $start, $before, $count")
             }
 
         })
     }
 
-    private fun setSelectedListener(holder: ViewHolder, position: Int) {
+    private fun setSelectedListener(holder: ViewHolder) {
         holder.classSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
@@ -97,7 +97,7 @@ class SubjectRecyclerAdapter(
                 id: Long
             ) {
                 if (pos != 0) {
-                    subjectList[position].classification = pos
+                    subjectList[holder.adapterPosition].classification = pos
                 }
             }
         }
@@ -114,7 +114,7 @@ class SubjectRecyclerAdapter(
                 id: Long
             ) {
                 if (pos != 0)
-                    subjectList[position].grade = pos
+                    subjectList[holder.adapterPosition].grade = pos
             }
         }
     }
