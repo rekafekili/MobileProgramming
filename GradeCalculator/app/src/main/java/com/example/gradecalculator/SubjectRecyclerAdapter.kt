@@ -94,6 +94,7 @@ class SubjectRecyclerAdapter(
                 pos: Int,
                 id: Long
             ) {
+                Log.d(TAG, "Selcted $parent / $view / $pos")
                 if (pos != 0) {
                     subjectList[holder.adapterPosition].classification = pos
                 }
