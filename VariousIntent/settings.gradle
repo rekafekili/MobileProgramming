@@ -1,0 +1,2 @@
+rootProject.name='VariousIntent'
+include ':app'
