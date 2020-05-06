@@ -1,5 +1,6 @@
 package com.example.variousintent
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -10,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     val IMAGE_CAPTURE_REQUEST = 1004
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -17,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         // 웹 브라우저 실행
         main_webview.loadUrl("https://www.google.com")
 
-        // 버튼을 클릭하면 카메라 앱 호출
+        // 버튼을 클릭하면 카메라 앱 호출!
         main_button.setOnClickListener {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
@@ -30,9 +32,11 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == IMAGE_CAPTURE_REQUEST) {
-            val image = data?.extras?.get("data") as Bitmap
-            main_imageview.setImageBitmap(image)
+        if(requestCode == IMAGE_CAPTURE_REQUEST && resultCode == Activity.RESULT_OK) {
+            if(data != null) {
+                val image = data.extras?.get("data") as Bitmap
+                main_imageview.setImageBitmap(image)
+            }
         }
     }
 }
