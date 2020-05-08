@@ -6,16 +6,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_vertical"
-    tools:context=".IntentTestActivity">
+    tools:context=".DataSendActivity">
 
     <EditText
-        android:id="@+id/test_edittext"
+        android:id="@+id/send_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="This is Hint" />
+        android:hint="Enter a Sender Name" />
 
     <Button
-        android:id="@+id/test_button"
+        android:id="@+id/send_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
