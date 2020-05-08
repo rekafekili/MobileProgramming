@@ -13,8 +13,14 @@ class IntentTestActivity : AppCompatActivity() {
         Toast.makeText(this, "onCreate()", Toast.LENGTH_SHORT).show()
 
         test_button.setOnClickListener {
-            val intent = Intent(this, IntentTestActivity::class.java)
+//            Task 관리 실습 (Flag)
+//            val intent = Intent(this, IntentTestActivity::class.java)
 //            intent.flags = (Intent.FLAG_ACTIVITY_SINGLE_TOP) or (Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            val intent = Intent(applicationContext, DataTransferActivity::class.java)
+
+            // Serializable 객체 송신
+            intent.putExtra("person", Person("js", 30))
+
             startActivity(intent)
         }
     }
