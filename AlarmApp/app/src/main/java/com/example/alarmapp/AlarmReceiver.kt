@@ -23,6 +23,8 @@ class AlarmReceiver : BroadcastReceiver() {
         serviceIntent.putExtra("state", receivedState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(serviceIntent)
+            // 보안 정책으로 인해 Oreo 버전 이후부터는 무조건 Service는 Foreground로 실행되어야 함.
+            // Service가 사용자에게 Notification을 통해 보이도록 만들어야함.
         } else {
             context.startService(serviceIntent)
         }
