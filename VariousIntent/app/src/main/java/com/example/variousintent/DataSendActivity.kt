@@ -6,11 +6,6 @@ import android.os.Bundle
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_data_send.*
 
-// TODO : 1. Primitive
-// TODO : 2. Serializable
-// TODO : 3. Parcelable
-// TODO : 4. Bundle
-// TODO : 5. static
 class DataSendActivity : AppCompatActivity() {
     companion object {
         var senderName = ""
