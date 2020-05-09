@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private var alarmManager: AlarmManager? = null
-    private var pendingIntent: PendingIntent? =  null
+    private var pendingIntent: PendingIntent? = null
     private lateinit var receiverIntent: Intent // AlarmReceiver.class 시작을 위한 Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             // 4. 알람 설정 등록 (10초 뒤)
             /**
              * 1. RTC_WAKEUP : Device가 꺼져있을 때 wakeup 해줌
-             * 2. Long : 언제 깨워줄 것인지, 현재 시각 기준으로 언제쯤 깨울것인지? 
+             * 2. Long : 언제 깨워줄 것인지, 현재 시각 기준으로 언제쯤 깨울것인지?
              *   -> 원하는 시각을 하고 싶다면 Calender 사용
              *   -> 이전 시각으로 알람을 설정하면 바로 실행
              * 3. PendingIntent : 지연 인텐트
@@ -65,19 +65,22 @@ class MainActivity : AppCompatActivity() {
         main_alarm_off_button.setOnClickListener {
             /* ---- 알람 해제 ---- */
             // ON 버튼을 누르기 전에 OFF 버튼을 눌렀을 경우 오류를 방지
-            if(alarmManager != null && pendingIntent != null) {
-                // 1. 알람 매니저에게 기존에 설정된 알람 취소 요청
-                alarmManager!!.cancel(pendingIntent)
-            }
+            alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            pendingIntent = PendingIntent.getBroadcast(
+                applicationContext,
+                0,
+                receiverIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+
+            // 1. 알람 매니저에게 기존에 설정된 알람 취소 요청
+            alarmManager!!.cancel(pendingIntent)
+            Toast.makeText(applicationContext, "Alarm is Canceled.", Toast.LENGTH_SHORT).show()
 
             // 2. Broadcast Receiver 에게 새로운 부가데이터를 바로 전달
             receiverIntent.putExtra("state", "OFF")
             // 알람 매니저에게 요청할 필요 없이 지금 바로 Broadcast 메시지 송출
             sendBroadcast(receiverIntent)
-
-            // 종료되고 몇 초 후, 보안 정책 강화로 인해 RemoteServiceException 이 발생함
-            //  -> onStartCommand() 내에 startForeground() 메소드를 호출해야함
-            //  -> Notification 필요!
         }
     }
 }
