@@ -74,6 +74,10 @@ class MainActivity : AppCompatActivity() {
             receiverIntent.putExtra("state", "OFF")
             // 알람 매니저에게 요청할 필요 없이 지금 바로 Broadcast 메시지 송출
             sendBroadcast(receiverIntent)
+
+            // 종료되고 몇 초 후, 보안 정책 강화로 인해 RemoteServiceException 이 발생함
+            //  -> onStartCommand() 내에 startForeground() 메소드를 호출해야함
+            //  -> Notification 필요!
         }
     }
 }

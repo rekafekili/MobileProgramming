@@ -3,6 +3,7 @@ package com.example.alarmapp
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -20,6 +21,10 @@ class AlarmReceiver : BroadcastReceiver() {
         // 1. Service Intent 생성, Service 실행
         val serviceIntent = Intent(context, SoundPlayService::class.java)
         serviceIntent.putExtra("state", receivedState)
-        context.startService(serviceIntent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(serviceIntent)
+        } else {
+            context.startService(serviceIntent)
+        }
     }
 }

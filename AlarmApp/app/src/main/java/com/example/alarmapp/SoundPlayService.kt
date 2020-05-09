@@ -24,6 +24,7 @@ class SoundPlayService : Service() {
     // 실행될 때마다 호출
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val receivedState = intent?.getStringExtra("state")
+        startForeground(1, )
 
         if(receivedState == "ON") {
             ringtone?.play()
