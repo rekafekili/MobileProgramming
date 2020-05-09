@@ -10,21 +10,26 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    private var alarmManager: AlarmManager? = null
+    private var pendingIntent: PendingIntent? =  null
+    private lateinit var receiverIntent: Intent // AlarmReceiver.class 시작을 위한 Intent
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        receiverIntent = Intent(applicationContext, AlarmReceiver::class.java)
 
         initListener()
     }
 
     private fun initListener() {
         main_alarm_on_button.setOnClickListener {
-            // 알람 설정 : 알람 매니저 활용
+            /* ---- 알람 설정 : 알람 매니저 활용 ---- */
             // 1. 알람 매니저 시스템 서비스 객체 선언
-            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
             // 2. 알람리시버(BroadcastReceiver) 실행을 위한 intent 생성
-            val receiverIntent = Intent(applicationContext, AlarmReceiver::class.java)
             receiverIntent.putExtra("state", "ON")
 
             // 3. 지연 인텐트를 사용하여 알람 매니저에게 요청
@@ -33,7 +38,7 @@ class MainActivity : AppCompatActivity() {
              * receiverIntent : 내가 실행하고 싶은 Intent
              * FLAG_UPDATE_CURRENT : 기존 pendingIntent가 있다면 부가 데이터(extra)만 업데이트함.
              */
-            val pendingIntent = PendingIntent.getBroadcast(
+            pendingIntent = PendingIntent.getBroadcast(
                 applicationContext,
                 0,
                 receiverIntent,
@@ -48,7 +53,7 @@ class MainActivity : AppCompatActivity() {
              *   -> 이전 시각으로 알람을 설정하면 바로 실행
              * 3. PendingIntent : 지연 인텐트
              */
-            alarmManager.set(
+            alarmManager?.set(
                 AlarmManager.RTC_WAKEUP,
                 System.currentTimeMillis() + 10000,
                 pendingIntent
@@ -56,8 +61,19 @@ class MainActivity : AppCompatActivity() {
 
             Toast.makeText(applicationContext, "10초 뒤로 알람을 설정했습니다.", Toast.LENGTH_SHORT).show()
         }
+
         main_alarm_off_button.setOnClickListener {
-            // 알람 해제
+            /* ---- 알람 해제 ---- */
+            // ON 버튼을 누르기 전에 OFF 버튼을 눌렀을 경우 오류를 방지
+            if(alarmManager != null && pendingIntent != null) {
+                // 1. 알람 매니저에게 기존에 설정된 알람 취소 요청
+                alarmManager!!.cancel(pendingIntent)
+            }
+
+            // 2. Broadcast Receiver 에게 새로운 부가데이터를 바로 전달
+            receiverIntent.putExtra("state", "OFF")
+            // 알람 매니저에게 요청할 필요 없이 지금 바로 Broadcast 메시지 송출
+            sendBroadcast(receiverIntent)
         }
     }
 }
