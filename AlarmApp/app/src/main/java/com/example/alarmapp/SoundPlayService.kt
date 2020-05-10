@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
 import android.media.Ringtone
 import android.media.RingtoneManager
 import android.os.Build
@@ -16,6 +17,7 @@ import androidx.core.app.NotificationCompat
 class SoundPlayService : Service() {
     companion object {
         var ringtone: Ringtone? = null
+        var mediaPlayer: MediaPlayer? = null
     }
 
     // 한 번 만들어지면 계속 실행됨
@@ -50,9 +52,14 @@ class SoundPlayService : Service() {
 
         if (receivedState == "ON") {
             ringtone?.play()
+            mediaPlayer = MediaPlayer.create(this, R.raw.sample) // 매번 생성, 삭제
+            mediaPlayer?.start()
             showNotification()
         } else {
             ringtone?.stop()
+            if(mediaPlayer != null) {
+                mediaPlayer?.release()
+            }
         }
 
 //        return super.onStartCommand(intent, flags, startId) // Default : START_STICKY
@@ -106,6 +113,9 @@ class SoundPlayService : Service() {
     override fun onDestroy() {
         if (ringtone != null) {
             ringtone?.stop()
+        }
+        if(mediaPlayer != null) {
+            mediaPlayer?.release()
         }
         super.onDestroy()
     }
