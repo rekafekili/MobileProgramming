@@ -57,7 +57,7 @@ class SoundPlayService : Service() {
             showNotification()
         } else {
             ringtone?.stop()
-            if(mediaPlayer != null) {
+            if (mediaPlayer != null) {
                 mediaPlayer?.release()
             }
         }
@@ -114,7 +114,7 @@ class SoundPlayService : Service() {
         if (ringtone != null) {
             ringtone?.stop()
         }
-        if(mediaPlayer != null) {
+        if (mediaPlayer != null) {
             mediaPlayer?.release()
         }
         super.onDestroy()
