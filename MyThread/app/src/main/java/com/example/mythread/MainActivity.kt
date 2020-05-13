@@ -15,14 +15,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var count: Int = 0
-    private val uiHandler: UIHandler = UIHandler()
+//    private val uiHandler: UIHandler = UIHandler()
 
     // (1) UI 쓰레드에서 시간이 걸리는 작업을 하면 안된다. -> Thread 필요
     // (2) Thread 에서는 UI Thread 의 View를 조작할 수 없음
     // (3) 쓰레드간 데이터 전달 방법이 필요 -> runOnUiThread, Handler...
     // (Usage 1) Handler 클래스 확장 사용
-    //   1. Handler.obtainMessage()
-    //   2. Handler.obtainMessage(what, obj)
+    //   1. Handler.obtainMessage() : Bundle 객체 전달
+    //   2. Handler.obtainMessage(what, obj) : 사용자 정의 객체 전달
+    // (Usage 2) Handler 원형 클래스 객체 사용
+//    private val handler = UIHandler()
+    // (Usage 3) Handler 객체 없이 UI 업데이트
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,16 +41,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     inner class MyThread : Thread() {
         override fun run() {
             for (i in 0 until 5) {
                 sleep(1000)
 //                main_button_up.text = (count).toString() // -> CalledFromWrongThreadException 발생
-
-//                runOnUiThread { // UI Thread에서 실행하도록 해준다.
-//                    main_textview.text = (count).toString()
-//                }
 
                 /**
                  * (Usage 1-1) UI 업데이트를 하고 싶을 때 Handler 를 이용해서 Message 를 보내자.
@@ -60,11 +59,24 @@ class MainActivity : AppCompatActivity() {
                 /**
                  * (Usage 1-2) obtainsMessage(what, obj); int, object
                  */
-                count++
-                val message = uiHandler.obtainMessage(SUCCESS, Person(age = 20+count))
-                // Bundle 데이터를 담을 수 있지만, what, obj 만 사용하는 예제로
-                message.sendToTarget()
+//                count++
+//                val message = uiHandler.obtainMessage(SUCCESS, Person(age = 20+count))
+//                // Bundle 데이터를 담을 수 있지만, what, obj 만 사용하는 예제로
+//                message.sendToTarget()
 
+                /**
+                 * (Usage 2) Handler 객체 이용
+                 */
+//                handler.post{
+//                    main_textview.text = (++count).toString()
+//                }
+
+                /**
+                 * (Usage 3) Handler 객체 없이 UI 업데이트
+                 */
+                runOnUiThread{
+                    main_textview.text = (++count).toString()
+                }
 
                 Log.d("[     Thread Test     ]", "count = $count")
             }
