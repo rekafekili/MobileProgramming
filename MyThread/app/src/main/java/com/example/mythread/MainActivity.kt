@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     //   1. Handler.obtainMessage() : Bundle 객체 전달
     //   2. Handler.obtainMessage(what, obj) : 사용자 정의 객체 전달
     // (Usage 2) Handler 원형 클래스 객체 사용
-//    private val handler = UIHandler()
+    private val handler = Handler()
     // (Usage 3) Handler 객체 없이 UI 업데이트
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,16 +67,16 @@ class MainActivity : AppCompatActivity() {
                 /**
                  * (Usage 2) Handler 객체 이용
                  */
-//                handler.post{
-//                    main_textview.text = (++count).toString()
-//                }
+                handler.post{
+                    main_textview.text = (++count).toString()
+                }
 
                 /**
                  * (Usage 3) Handler 객체 없이 UI 업데이트
                  */
-                runOnUiThread{
-                    main_textview.text = (++count).toString()
-                }
+//                runOnUiThread{
+//                    main_textview.text = (++count).toString()
+//                }
 
                 Log.d("[     Thread Test     ]", "count = $count")
             }
