@@ -43,15 +43,57 @@
             android:orientation="vertical"/>
     </ScrollView>
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/frame_button_lap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:src="@android:color/transparent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="16dp"
+            android:text="LAP"
+            android:includeFontPadding="false"
+            android:textColor="@android:color/white"/>
+    </FrameLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/main_extended_floatingbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LAP"
+        android:textColor="@android:color/white"
+        app:iconTint="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:icon="@drawable/ic_format_list_numbered_black_24dp"/>
+
+    <!--
+        ExtendedFloatingActionButton 을 쓰기 위해서는
+        res -> values -> styles.xml 에서 스타일을 변경해야 함.
+        스타일을 바꾸면 이미지의 컬러는 android:tint 대신 "app:tint" 로 설정해야 함.
+        ExtendedFloatingActionButton 에서 srcCompat 대신 "icon" 속성을 사용하고
+        이미지에 덧칠하는 tint 기능은 "iconTint" 속성을 사용해야 함.
+    -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/main_action_floationbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimary"
-        android:tint="@android:color/white"
         android:focusable="true"
         android:clickable="true"
         android:layout_marginBottom="30dp"
+        app:tint="@android:color/white"
         app:srcCompat="@drawable/ic_play_arrow_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,10 +104,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/holo_red_light"
-        android:tint="@android:color/white"
         android:focusable="true"
         android:clickable="true"
         android:layout_marginBottom="30dp"
+        app:tint="@android:color/white"
         app:srcCompat="@drawable/ic_refresh_black_24dp"
         app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -77,10 +119,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/holo_green_light"
-        android:tint="@android:color/black"
         android:focusable="true"
         android:clickable="true"
         android:layout_marginBottom="30dp"
+        app:tint="@android:color/white"
         app:srcCompat="@drawable/ic_format_list_numbered_black_24dp"
         app:layout_constraintHorizontal_bias="0.7"
         app:layout_constraintBottom_toBottomOf="parent"
