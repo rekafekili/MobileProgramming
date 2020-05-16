@@ -9,6 +9,13 @@ import org.w3c.dom.Text
 import java.util.*
 import kotlin.concurrent.timer
 
+/**
+ * 아래와 같이 스톱워치 앱을 만들 경우 <Windows>에서 제공하는 스톱워치랑 비교했을 때 성능이 많이 부족함
+ *
+ * 원인 : "Timertask"를 사용하고, UI 업데이트 소요 시간이 중첩되다보니 성능이 비교적 안좋음
+ *
+ * 개선 : "SystemClock"을 사용하여 좀더 정확한 스톱워치를 만들어야함. -> 자바코드로 구현
+ */
 class MainActivity : AppCompatActivity() {
     private var time = 0
     private var isRunning = false

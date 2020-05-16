@@ -72,6 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LAP"
+        android:layout_margin="16dp"
         android:textColor="@android:color/white"
         app:iconTint="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
