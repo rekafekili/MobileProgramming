@@ -1,5 +1,6 @@
 package com.example.mysystemclock;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -19,14 +20,18 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
  * 정확한 시간이 표시되는 스톱워치를 만들려고 함. ("SystemClock" 사용함)
  */
 public class MainActivity extends AppCompatActivity {
-    private TextView tvSecond;
     private TextView tvMillis;
+    private TextView tvSecond;
+    private TextView tvMinute;
+    private TextView tvHour;
     private LinearLayout linearLapList;
     private FloatingActionButton fabAction, fabReset;
     private ExtendedFloatingActionButton fabLap;
     private Handler handler = new Handler();
 
     private boolean isRunning;
+    private int hour;
+    private int minute;
     private int sec; // 화면에 표시할 초
     private int millis; // 화면에 표시할 밀리초
     private int lap = 0;
@@ -39,12 +44,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvSecond = findViewById(R.id.main_second_textview);
-        tvMillis = findViewById(R.id.main_millisec_textview);
-        linearLapList = findViewById(R.id.main_lap_list_linearlayout);
+        initView();
 
         // 시작, 재시작 버튼 이벤트 처리
-        fabAction = findViewById(R.id.main_action_floationbutton);
         fabAction.setOnClickListener((v) -> {
             isRunning = !isRunning;
             if(isRunning) {
@@ -55,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // 랩타임 기록 이벤트 처리
-        fabLap = findViewById(R.id.main_laps_extended_floatingbutton);
         fabLap.setOnClickListener((v) -> {
             if(isRunning){
                 recordLapTime();
@@ -65,16 +66,26 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // 리셋 이벤트 처리
-        fabReset = findViewById(R.id.main_reset_floationbutton);
         fabReset.setOnClickListener((v) -> {
             reset();
         });
     }
 
+    private void initView() {
+        tvHour = findViewById(R.id.main_hour_textview);
+        tvMinute = findViewById(R.id.main_minute_textview);
+        tvSecond = findViewById(R.id.main_second_textview);
+        tvMillis = findViewById(R.id.main_millisec_textview);
+        linearLapList = findViewById(R.id.main_lap_list_linearlayout);
+        fabAction = findViewById(R.id.main_action_floationbutton);
+        fabLap = findViewById(R.id.main_laps_extended_floatingbutton);
+        fabReset = findViewById(R.id.main_reset_floationbutton);
+    }
+
     private void recordLapTime() {
         TextView textView = new TextView(this);
         lap++;
-        textView.setText(String.format("%02d LAP : %d.%02d", lap, sec, millis));
+        textView.setText(String.format("%02d LAP : %02d:%02d:%02d.%02d", lap, hour, minute, sec, millis));
         textView.setTextSize(20);
         textView.setWidth(MATCH_PARENT);
         textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -83,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void reset() {
         totalElapsedTime = 0L;
-        millis = 0;
-        sec = 0;
         lap = 0;
         isRunning = false;
         fabAction.setImageResource(R.drawable.ic_play_arrow_black_24dp);
@@ -92,7 +101,11 @@ public class MainActivity extends AppCompatActivity {
 
         handler.removeCallbacks(timeUpdater); // 대기중인 Runnable post 삭제
         handler.post(() -> {
-            tvSecond.setText("0");
+            tvHour.setText("00:");
+            tvHour.setTextColor(getResources().getColor(R.color.darker_gray));
+            tvMinute.setText("00:");
+            tvMinute.setTextColor(getResources().getColor(R.color.darker_gray));
+            tvSecond.setText("00");
             tvMillis.setText(".00");
         });
     }
@@ -126,8 +139,18 @@ public class MainActivity extends AppCompatActivity {
             long updateTime = totalElapsedTime + elapsedTime;
             // 1/100초 까지만 표시
             millis = (int)(updateTime % 1000) / 10;
-            sec = (int)(updateTime / 1000);
-            tvSecond.setText(String.valueOf(sec));
+            sec = (int)(updateTime / 1000) % 60;
+            minute = (int)(updateTime / 1000) / 60;
+            if(minute > 0) {
+                tvMinute.setTextColor(Color.BLACK);
+                tvMinute.setText(String.format("%02d:", minute));
+            }
+            hour = minute / 60;
+            if(hour > 0) {
+                tvMinute.setTextColor(Color.BLACK);
+                tvMinute.setText(String.format("%02d:", hour));
+            }
+            tvSecond.setText(String.format("%02d", sec));
             tvMillis.setText(String.format(".%02d", millis));
             handler.post(this); // 다시 시간 측정과 UI 업데이트 요청. 무한루프개념. 여전히 다른 쓰레드도 동시 실행되니 문제 없음
         }
