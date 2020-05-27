@@ -4,6 +4,7 @@ void main() {
   runApp(MyApp());
 }
 
+// 미리보기 : https://flutterstudio.app/
 // HotReload -> 저장하면 자동으로 변경된 앱을 띄워준다.
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -44,7 +45,9 @@ class _HelloPageState extends State<HelloPage> {
               mainAxisAlignment:  MainAxisAlignment.center,
               children: <Widget>[
                 Text(_message, style: TextStyle(fontSize: 30)),
-                Text("$_count", style: TextStyle(fontSize: 30))
+                Text("$_count", style: TextStyle(fontSize: 30)),
+                RaisedButton(
+                    child: Text("화면 이동")),
           ],
         )));
   }
