@@ -4,6 +4,7 @@ void main() {
   runApp(MyApp());
 }
 
+// HotReload -> 저장하면 자동으로 변경된 앱을 띄워준다.
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -11,25 +12,43 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Scaffold(
-          appBar: AppBar(
-            title: Text('헬로 월드')
-          ), body: Text('굿바이 월드', style: TextStyle(fontSize: 30))),
+      home: HelloPage("Yutang")
     );
+  }
+}
+
+// stful 입력 후 엔터 -> 자동 완성
+// StatefulWidget = 상태를 가지고 있고, 화면을 변경시킬 수 있다.
+class HelloPage extends StatefulWidget {
+  final String title;
+
+  HelloPage(this.title);
+
+  @override
+  _HelloPageState createState() => _HelloPageState();
+}
+
+class _HelloPageState extends State<HelloPage> {
+  String _message = "Hello World"; // _를 앞에 붙이면 private 으로 접근 지정된다.
+  int _count = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: _changeMessage),
+        appBar: AppBar(
+            title: Text(widget.title)
+        ), body: Text(_message + " : " + _count.toString(), style: TextStyle(fontSize: 30)));
+  }
+
+  void _changeMessage() {
+    setState(() {
+      _message = "Bye World";
+      _count++;
+    });
   }
 }
