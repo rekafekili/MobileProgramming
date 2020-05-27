@@ -10,12 +10,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: HelloPage("Yutang")
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: HelloPage("Yutang"));
   }
 }
 
@@ -38,13 +37,19 @@ class _HelloPageState extends State<HelloPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: _changeMessage),
-        appBar: AppBar(
-            title: Text(widget.title)
-        ), body: Text(_message + " : " + _count.toString(), style: TextStyle(fontSize: 30)));
+            child: Icon(Icons.add), onPressed: _changeMessage),
+        appBar: AppBar(title: Text(widget.title)),
+        body: Center(
+            child: Column(
+              mainAxisAlignment:  MainAxisAlignment.center,
+              children: <Widget>[
+                Text(_message, style: TextStyle(fontSize: 30)),
+                Text("$_count", style: TextStyle(fontSize: 30))
+          ],
+        )));
   }
 
+  //child: Text(_message + " : " + _count.toString(), style: TextStyle(fontSize: 30)))
   void _changeMessage() {
     setState(() {
       _message = "Bye World";
