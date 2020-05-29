@@ -30,10 +30,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final stores = List<Store>();
+  var isLoading = true;
 
   // 비동기 async(Future 반환) - await
   // 비동기 메소드의 반환값은 Future가 되어야 하며, 특정 타입을 지정할 때는 Future<int> 같이 제네릭을 사용한다.
   Future fetch() async {
+    setState(() {
+      isLoading = true;
+    });
     var url =
         "https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByGeo/json?lat=37.266389&lng=126.999333&m=5000";
 
@@ -49,31 +53,47 @@ class _MyHomePageState extends State<MyHomePage> {
       stores.clear();
       jsonStores.forEach((jsonStore) {
         stores.add(Store.fromJson(jsonStore));
-      });  
+      });
+      isLoading = false;
     });
+
+    print('Fetch Complete');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("마스크 재고 있는 곳 : 0곳"),
+        title: Text("마스크 재고 있는 곳 : ${stores.length}곳"),
+        actions: <Widget>[
+          IconButton(
+            onPressed: fetch,
+            icon: Icon(Icons.refresh),
+          )
+        ],
       ),
-      body: ListView(
-        children: stores.map((e) {
-          return ListTile(
-            title: Text(e.name),
-            subtitle: Text(e.addr),
-            trailing: Text(e.remainStat ?? '매진'),
-          );
-        }).toList(),
-      ),
+      body: isLoading
+          ? loadingWidget()
+          : ListView(
+              children: stores.map((e) {
+                return ListTile(
+                  title: Text(e.name),
+                  subtitle: Text(e.addr),
+                  trailing: Text(e.remainStat ?? '매진'),
+                );
+              }).toList(),
+            ),
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    fetch();
+  Widget loadingWidget() {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text('정보를 가져오는 중'),
+        CircularProgressIndicator(),
+      ],
+    ));
   }
 }
