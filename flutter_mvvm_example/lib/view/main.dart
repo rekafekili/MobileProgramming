@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttermvvmexample/viewmodel/main_viewmodel.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,21 +30,12 @@ class _MyHomePageState extends State<MyHomePage> {
   var _isEmailValid;
   var _emailErrorText;
 
+  final _viewModel = SubscriptionViewModelImpl();
+
   @override
   void initState() {
-    textFieldController.addListener(() {
-      var email = textFieldController.text;
-      var isValid = EmailValidator.isEmailValid(email);
-      var errorText;
-      if (!isValid) {
-        errorText = "Invalid Email";
-      }
-
-      setState(() {
-        _isEmailValid = isValid;
-        _emailErrorText = errorText;
-      });
-    });
+    textFieldController.addListener(
+        () => _viewModel.inputMailText.add(textFieldController.text));
     super.initState();
   }
 
@@ -55,46 +47,34 @@ class _MyHomePageState extends State<MyHomePage> {
           margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
           child: Column(
             children: <Widget>[
-              TextField(
-                controller: textFieldController,
-                obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Enter a Password'),
-              ),
-              FloatingActionButton(
-                child: Icon(Icons.print),
-                onPressed: () => showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        content: Text(textFieldController.text),
-                      );
-                    }),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    child: TextField(
-                      controller: textFieldController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Email",
-                          errorText: _emailErrorText),
+                    child: StreamBuilder<String>(
+                      stream: _viewModel.outputErrorText,
+                      builder: (context, snapshot) {
+                        return TextField(
+                          controller: textFieldController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                              labelText: "mvvm email",
+                              errorText: snapshot.data),
+                        );
+                      },
                     ),
                   ),
+                  StreamBuilder(
+                      stream: _viewModel.outputIsButtonEnabled,
+                      builder: (context, snapshot) {
+                        return RaisedButton(
+                          onPressed: () {},
+                        );
+                      })
                 ],
               )
             ],
           )),
     );
-  }
-}
-
-class EmailValidator {
-  static isEmailValid(String str) {
-    return str.contains("@");
   }
 }
