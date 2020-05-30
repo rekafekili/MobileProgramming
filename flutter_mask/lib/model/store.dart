@@ -20,16 +20,18 @@ class Store {
       this.remainStat,
       this.createdAt});
 
-  Store.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
-    name = json['name'];
-    addr = json['addr'];
-    type = json['type'];
-    lat = json['lat'];
-    lng = json['lng'];
-    stockAt = json['stock_at'];
-    remainStat = json['remain_stat'];
-    createdAt = json['created_at'];
+  // factory : 임의로 Store 인스턴스를 생성하여 반환한다.
+  factory Store.fromJson(Map<String, dynamic> json) {
+    return Store(
+        code: json['code'],
+        name: json['name'],
+        addr: json['addr'],
+        type: json['type'],
+        lat: json['lat'],
+        lng: json['lng'],
+        stockAt: json['stock_at'],
+        remainStat: json['remain_stat'],
+        createdAt: json['created_at']);
   }
 
   Map<String, dynamic> toJson() {
