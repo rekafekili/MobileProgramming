@@ -21,13 +21,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-Widget loadingWidget() {
-  return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text('정보를 가져오는 중'),
-          CircularProgressIndicator(),
-        ],
-      ));
-}

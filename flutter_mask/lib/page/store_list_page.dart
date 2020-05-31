@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttermask/viewmodel/store_view_model.dart';
 import 'package:fluttermask/widget/area_dropdown.dart';
+import 'package:fluttermask/widget/common_widgets.dart';
 import 'package:fluttermask/widget/store_list.dart';
 import 'package:fluttermask/widget/store_search.dart';
 
@@ -19,7 +20,7 @@ class _StoreListPageState extends State<StoreListPage> {
     final viewModel = Provider.of<StoreListViewModel>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('공적 마스크'),
+        title: viewModel.stores.isEmpty ? Text('공적 마스크') : Text('공적 마스크 판매처 : ${viewModel.stores.length}개'),
         backgroundColor: Colors.lightGreen,
       ),
       body: Container(
@@ -28,9 +29,16 @@ class _StoreListPageState extends State<StoreListPage> {
         child: Column(
           children: <Widget>[
             StoreSearch(controller: _controller, viewModel: viewModel),
-            Expanded(
-              child: StoreList(stores: viewModel.stores),
-            )
+            SizedBox(
+              height: 10,
+            ),
+            viewModel.isLoading
+                ? LoadingWidget()
+                : viewModel.stores.isEmpty
+                    ? NoResultTextWidget()
+                    : Expanded(
+                        child: StoreList(stores: viewModel.stores),
+                      )
           ],
         ),
       ),

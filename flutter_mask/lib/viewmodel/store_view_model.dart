@@ -4,8 +4,12 @@ import 'package:fluttermask/service/http_service.dart';
 
 class StoreListViewModel extends ChangeNotifier {
   List<StoreViewModel> stores = List<StoreViewModel>();
+  bool isLoading = false;
 
   Future<void> fetchStores(String address) async {
+    isLoading = true;
+    notifyListeners();
+
     final results = await WebService().fetchStores(address);
     this.stores = results
         .where((element) {
@@ -15,7 +19,8 @@ class StoreListViewModel extends ChangeNotifier {
         })
         .map((item) => StoreViewModel(store: item))
         .toList();
-    print(this.stores);
+
+    isLoading = false;
     notifyListeners();
   }
 }
