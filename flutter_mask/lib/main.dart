@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttermask/model/store.dart';
 import 'package:fluttermask/page/store_list_page.dart';
 import 'package:fluttermask/viewmodel/store_view_model.dart';
 import 'package:provider/provider.dart';

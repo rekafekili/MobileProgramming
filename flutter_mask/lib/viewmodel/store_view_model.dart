@@ -7,7 +7,14 @@ class StoreListViewModel extends ChangeNotifier {
 
   Future<void> fetchStores(String address) async {
     final results = await WebService().fetchStores(address);
-    this.stores = results.map((item) => StoreViewModel(store: item)).toList();
+    this.stores = results
+        .where((element) {
+          return element.remainStat == 'plenty' ||
+              element.remainStat == 'some' ||
+              element.remainStat == 'few';
+        })
+        .map((item) => StoreViewModel(store: item))
+        .toList();
     print(this.stores);
     notifyListeners();
   }
@@ -56,34 +63,35 @@ class StoreViewModel {
   }
 }
 
+/// "remainStat"에 대한 추가 설명을 담는 클래스
 class RemainDescription {
   var remainState;
   var description;
   var color;
 
   RemainDescription(String remainStat) {
-    switch(remainStat) {
-      case 'plenty' :
+    switch (remainStat) {
+      case 'plenty':
         this.remainState = '충분';
         this.description = '100개 이상';
         this.color = Colors.green;
         break;
-      case 'some' :
+      case 'some':
         this.remainState = '보통';
         this.description = '30 ~ 100개';
         this.color = Colors.yellow;
         break;
-      case 'few' :
+      case 'few':
         this.remainState = '부족';
         this.description = '2 ~ 30개';
         this.color = Colors.red;
         break;
-      case 'empty' :
+      case 'empty':
         this.remainState = '소진 임박';
         this.description = '1개 이하';
         this.color = Colors.grey;
         break;
-      default :
+      default:
         this.remainState = '판매 중지';
         this.description = '판매 중지';
         this.color = Colors.black;
