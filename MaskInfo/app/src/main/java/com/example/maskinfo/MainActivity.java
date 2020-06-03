@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -53,8 +56,10 @@ public class MainActivity extends AppCompatActivity {
         storeInfoCall.enqueue(new Callback<StoreInfo>() {
             @Override
             public void onResponse(Call<StoreInfo> call, Response<StoreInfo> response) {
+                Log.d(TAG, "onResponse : refresh");
                 List<Store> items = response.body().getStores();
                 adapter.updateItems(items);
+                getSupportActionBar().setTitle("마스크 재고 있는 곳 : " + items.size() + " 곳");
             }
 
             @Override
@@ -62,6 +67,23 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure ", t);
             }
         });
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
 
