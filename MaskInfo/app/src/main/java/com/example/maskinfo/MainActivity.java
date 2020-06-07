@@ -45,7 +45,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
-// TODO : Retrofit 에 대해서 좀더 깊이 공부할것
+// TODO : Retrofit 에 대해서 좀더 깊이 공부할것 -> 현재 위치 기반 + 주소 검색 기능 추가하기
 // TODO : MVVM 패턴 적용을 어떻게 하는지 관점
 // TODO : MotionLayout 적용 가능한지
 public class MainActivity extends AppCompatActivity {
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         TedPermission.with(this)
                 .setPermissionListener(permissionlistener)
-                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setDeniedMessage("권한이 없으면 서비스를 이용하실 수 없습니다.\n\n설정 메뉴에서 권한을 허용 해주세요.")
                 .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
                 .check();
 
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         // 데이터 변경 감지하여 UI 업데이트
         viewModel.itemLiveData.observe(this, stores -> {
             adapter.updateItems(stores);
-            getSupportActionBar().setTitle("마스크 재고 있는 곳 : " + stores.size()) ;
+            getSupportActionBar().setTitle("마스크 재고 있는 곳 : " + stores.size() + " 곳") ;
         });
 
         viewModel.loadingLiveData.observe(this, isLoading -> {
