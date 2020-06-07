@@ -24,6 +24,16 @@ public class Store {
     @Json(name = "type")
     private String type;
 
+    private double distance;
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
     public String getAddr() {
         return addr;
     }

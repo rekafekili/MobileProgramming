@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.maskinfo.model.Store;
 import com.example.maskinfo.model.StoreInfo;
+import com.example.maskinfo.repository.LocationDistance;
 import com.example.maskinfo.repository.MaskService;
 
 import java.util.ArrayList;
@@ -42,7 +43,14 @@ public class MainViewModel extends ViewModel {
                 List<Store> items = response.body().getStores()
                         .stream()
                         .filter(item -> item.getRemainStat() != null)
+                        .filter(item -> !item.getRemainStat().equals("break"))
+                        .filter(item -> !item.getRemainStat().equals("empty"))
                         .collect(Collectors.toList());
+
+                for (Store store : items) {
+                    double distance = LocationDistance.distance(location.getLatitude(), location.getLongitude(), store.getLat(), store.getLng(), "k");
+                    store.setDistance(distance);
+                }
 
                 itemLiveData.postValue(items);
             }

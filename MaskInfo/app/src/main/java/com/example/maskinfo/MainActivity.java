@@ -174,7 +174,7 @@ class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHolder> {
 
         holder.nameTextView.setText(store.getName());
         holder.addressTextView.setText(store.getAddr());
-        holder.distanceTextView.setText("11.11km");
+        holder.distanceTextView.setText(String.format("%.02fkm", store.getDistance()));
 
         String remainStat = "판매 중지";
         String count = "판매 중지";
