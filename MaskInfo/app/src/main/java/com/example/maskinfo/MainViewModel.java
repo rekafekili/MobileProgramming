@@ -52,6 +52,8 @@ public class MainViewModel extends ViewModel {
                     store.setDistance(distance);
                 }
 
+                Collections.sort(items);
+
                 itemLiveData.postValue(items);
             }
 
