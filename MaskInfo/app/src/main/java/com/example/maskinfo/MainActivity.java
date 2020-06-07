@@ -84,10 +84,15 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("MissingPermission")
     private void performAction() {
         fusedLocationProviderClient.getLastLocation()
+                .addOnFailureListener(this, error -> {
+                    Log.d(TAG, "performAction: " + error.getCause());
+                })
                 .addOnSuccessListener(this, location -> {
                     // Got last known location. In some rare situations this can be null.
                     if (location != null) {
                         // Logic to handle location object
+                        Log.d(TAG, "performAction: " + location.getLatitude());
+                        Log.d(TAG, "performAction: " + location.getLongitude());
                     }
                 });
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
