@@ -1,5 +1,6 @@
 package com.example.maskinfo;
 
+import android.location.Location;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -24,6 +25,7 @@ public class MainViewModel extends ViewModel {
     private static final String TAG = MainViewModel.class.getSimpleName();
 
     public MutableLiveData<List<Store>> itemLiveData = new MutableLiveData<>();
+    public Location location;
 
     private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(MaskService.BASE_URL)
@@ -32,15 +34,8 @@ public class MainViewModel extends ViewModel {
 
     private MaskService service = retrofit.create(MaskService.class);
 
-    private Call<StoreInfo> storeInfoCall = service.fetchStoreInfo();
-
-    public MainViewModel() {
-        // 데이터 요청
-        fetchStoreInfo();
-    }
-
     public void fetchStoreInfo() {
-        storeInfoCall.clone().enqueue(new Callback<StoreInfo>() {
+        service.fetchStoreInfo(location.getLatitude(), location.getLongitude()).clone().enqueue(new Callback<StoreInfo>() {
             @Override
             public void onResponse(Call<StoreInfo> call, Response<StoreInfo> response) {
                 Log.d(TAG, "onResponse : refresh");

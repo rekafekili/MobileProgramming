@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
@@ -93,6 +94,9 @@ public class MainActivity extends AppCompatActivity {
                         // Logic to handle location object
                         Log.d(TAG, "performAction: " + location.getLatitude());
                         Log.d(TAG, "performAction: " + location.getLongitude());
+
+                        viewModel.location = location;
+                        viewModel.fetchStoreInfo();
                     }
                 });
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -103,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         // 데이터 변경 감지하여 UI 업데이트
-        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         viewModel.itemLiveData.observe(this, stores -> {
             adapter.updateItems(stores);
             getSupportActionBar().setTitle("마스크 재고 있는 곳 : " + stores.size()) ;
