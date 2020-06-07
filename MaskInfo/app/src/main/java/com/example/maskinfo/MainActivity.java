@@ -33,6 +33,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
+// TODO : Retrofit 에 대해서 좀더 깊이 공부할것
+// TODO : MVVM 패턴 적용을 어떻게 하는지 관점
+// TODO : MotionLayout 적용 가능한지
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
