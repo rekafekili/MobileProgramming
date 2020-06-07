@@ -2,6 +2,9 @@ package com.example.maskinfo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +36,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private MainViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,32 +50,11 @@ public class MainActivity extends AppCompatActivity {
         final StoreAdapter adapter = new StoreAdapter();
         recyclerView.setAdapter(adapter);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(MaskService.BASE_URL)
-                .addConverterFactory(MoshiConverterFactory.create())
-                .build();
-
-        MaskService service = retrofit.create(MaskService.class);
-
-        Call<StoreInfo> storeInfoCall = service.fetchStoreInfo();
-
-        storeInfoCall.enqueue(new Callback<StoreInfo>() {
-            @Override
-            public void onResponse(Call<StoreInfo> call, Response<StoreInfo> response) {
-                Log.d(TAG, "onResponse : refresh");
-                List<Store> items = response.body().getStores();
-
-                adapter.updateItems(items
-                        .stream()
-                        .filter(item -> item.getRemainStat() != null)
-                        .collect(Collectors.toList()));
-                getSupportActionBar().setTitle("마스크 재고 있는 곳 : " + items.size() + " 곳");
-            }
-
-            @Override
-            public void onFailure(Call<StoreInfo> call, Throwable t) {
-                Log.e(TAG, "onFailure ", t);
-            }
+        // 데이터 변경 감지하여 UI 업데이트
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel.itemLiveData.observe(this, stores -> {
+            adapter.updateItems(stores);
+            getSupportActionBar().setTitle("마스크 재고 있는 곳 : " + stores.size()) ;
         });
     }
 
@@ -87,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_refresh:
+                // 새로고침
+                viewModel.fetchStoreInfo();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
