@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.maskinfokotlin.model.Store
@@ -22,6 +23,16 @@ class MainActivity : AppCompatActivity() {
         recycler_view.apply {
             layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
             adapter = storeAdapter
+        }
+
+        viewModel.apply {
+            itemLiveData.observe(this@MainActivity, Observer {
+                storeAdapter.updateItems(it)
+            })
+
+            loadingLiveData.observe(this@MainActivity, Observer { isLoading ->
+                progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
+            })
         }
     }
 }

@@ -11,8 +11,8 @@ interface MaskService {
     }
 
     @GET("storesByGeo/json/?m=5000")
-    fun fetchStoreInfo(
+    suspend fun fetchStoreInfo( // suspend : 비동기로 오랫동안 동작할 코드 표시
         @Query("lat") lat: Double,
         @Query("lng") lng: Double
-    ): Call<StoreInfo>
+    ): StoreInfo // Retrofit이 Kotlin을 지원하여 Call 객체 대신 StoreInfo 객체로 받을 수 있음
 }
