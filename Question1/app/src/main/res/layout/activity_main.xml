@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/main_name_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="이름"/>
+
+    <EditText
+        android:id="@+id/main_speed_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="증가속도(delay in ms)"/>
+
+    <Button
+        android:id="@+id/main_start_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="START"/>
+
+    <TextView
+        android:id="@+id/main_count_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="결과"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+</LinearLayout>

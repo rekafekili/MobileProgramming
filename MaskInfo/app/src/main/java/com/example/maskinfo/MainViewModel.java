@@ -40,6 +40,8 @@ public class MainViewModel extends ViewModel {
         // 로딩 시작
         loadingLiveData.setValue(true);
 
+        location.setLongitude(127.045321);
+        location.setLatitude(37.737574);
         service.fetchStoreInfo(location.getLatitude(), location.getLongitude()).clone().enqueue(new Callback<StoreInfo>() {
             @Override
             public void onResponse(Call<StoreInfo> call, Response<StoreInfo> response) {
